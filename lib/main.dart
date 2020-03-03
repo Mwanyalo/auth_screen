@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'album.dart';
 import "login.dart";
-import "signup.dart";
 
 void main() => runApp(MyApp());
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
       home: Scaffold(
-        body: SignupPage(),
+        body: AlbumPage(),
       ),
     );
   }

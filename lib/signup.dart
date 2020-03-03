@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'input_field.dart';
+import 'login.dart';
+import 'formFields/fullName.dart';
+import 'formFields/phone.dart';
+import 'formFields/email.dart';
+import 'formFields/password.dart';
+import 'formFields/confirmPassword.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -17,104 +22,149 @@ class _SignupState extends State<SignupPage> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController consfirmPasswordController =
+  final TextEditingController confirmPasswordController =
       TextEditingController();
+  final GlobalKey<FormState> _regKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    fullNameController.addListener(updateFullName);
+    phoneController.addListener(updatePhone);
     emailController.addListener(updateEmail);
     passwordController.addListener(updatePassword);
+    confirmPasswordController.addListener(updateConfirmPassword);
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
-    return Container(
-      margin: EdgeInsets.only(top: 12.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            // Header Text
-            Container(
-              margin: EdgeInsets.only(top: 50, bottom: 5),
-              child: Text(
-                "Lets Get Started!",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 26,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: Text(
-                "Create an account to Q Allure to get all features",
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-            // Full Name
-            InputField(controller: emailController, hint: 'Full Name'),
-            // Email Address
-            InputField(controller: emailController, hint: 'Email'),
-            // Phone
-            InputField(controller: emailController, hint: 'Phone'),
-            // Password
-            InputField(controller: passwordController, hint: 'Password'),
-            // Confirm Password
-            InputField(controller: emailController, hint: 'Confirm Password'),
-
-            // Signup button
-            Container(
-              margin: EdgeInsets.all(15.0),
-              child: MaterialButton(
+    return Scaffold(
+      key: globalKey,
+      body: Container(
+        margin: EdgeInsets.only(top: 12.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              // Header Text
+              Container(
+                margin: EdgeInsets.only(top: 50, bottom: 5),
                 child: Text(
-                  "CREATE",
+                  "Lets Get Started!",
                   style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                      color: Colors.black,
+                      fontSize: 26,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.bold),
                 ),
-                elevation: 2,
-                highlightElevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                minWidth: 220,
-                color: Color(0xFF0052d0),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 28.0,
-                  vertical: 10.0,
-                ),
-                onPressed: () {},
               ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(top: 35, bottom: 20),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  "Already have an account? ",
-                  style: TextStyle(color: Colors.black),
-                ),
-                Text(
-                  "Login here",
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "Create an account to Q Allure to get all features",
                   style: TextStyle(
-                    color: Color(0xFF215bed),
-                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
                   ),
                 ),
-              ]),
-            ),
-          ],
+              ),
+              Form(
+                key: _regKey,
+                child: Column(children: <Widget>[
+                  FullName(controller: fullNameController, hint: 'Full Name'),
+
+                  Email(controller: emailController, hint: 'Email'),
+
+                  Phone(controller: phoneController, hint: 'Phone'),
+
+                  Password(controller: passwordController, hint: 'Password'),
+
+                  ConfirmPassword(
+                    controller: confirmPasswordController,
+                    hint: 'Confirm Password',
+                    password: password,
+                  ),
+
+                  // Signup button
+                  Container(
+                    margin: EdgeInsets.all(15.0),
+                    child: MaterialButton(
+                      child: Text(
+                        "CREATE",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      elevation: 2,
+                      highlightElevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      minWidth: 220,
+                      color: Color(0xFF0052d0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 28.0,
+                        vertical: 10.0,
+                      ),
+                      onPressed: () {
+                        // Validate returns true if the form is valid, otherwise false.
+                        if (_regKey.currentState.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+
+                          final snackBar =
+                              SnackBar(content: Text('Processing Data...'));
+                          globalKey.currentState.showSnackBar(snackBar);
+                        }
+                      },
+                    ),
+                  ),
+                ]),
+              ),
+
+              Container(
+                margin: EdgeInsets.only(top: 35, bottom: 20),
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    "Already have an account? ",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Text(
+                      "Login here",
+                      style: TextStyle(
+                        color: Color(0xFF215bed),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void updateFullName() {
+    setState(() {
+      fullName = fullNameController.text;
+    });
+  }
+
+  void updatePhone() {
+    setState(() {
+      phone = phoneController.text;
+    });
   }
 
   void updateEmail() {
@@ -126,6 +176,12 @@ class _SignupState extends State<SignupPage> {
   void updatePassword() {
     setState(() {
       password = passwordController.text;
+    });
+  }
+
+  void updateConfirmPassword() {
+    setState(() {
+      consfirmPassword = confirmPasswordController.text;
     });
   }
 }
