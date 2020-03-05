@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import "signup.dart";
-import 'formFields/password.dart';
-import 'formFields/email.dart';
+import 'package:Memes/views/view_memes.dart';
+import "package:Memes/views/signup.dart";
+import 'package:Memes/formFields/password.dart';
+import 'package:Memes/formFields/email.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -105,8 +106,7 @@ class _LoginState extends State<LoginPage> {
                       ),
                       onPressed: () {
                         // Validate returns true if the form is valid, otherwise false.
-                        debugPrint("login: " +
-                            _logKey.currentState.validate().toString());
+
                         if (_logKey.currentState.validate()) {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
@@ -114,6 +114,10 @@ class _LoginState extends State<LoginPage> {
                           final snackBar =
                               SnackBar(content: Text('Processing Data...'));
                           globalKey.currentState.showSnackBar(snackBar);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => GetMemes()),
+                          );
                         }
                       },
                     ),

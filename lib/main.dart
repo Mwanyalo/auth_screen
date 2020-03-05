@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'album.dart';
-import "login.dart";
+import "package:Memes/views/login.dart";
 
 void main() => runApp(MyApp());
 
@@ -9,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login',
+      title: 'Memes Gallery',
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFf6f6f6),
         accentColor: Colors.cyan[600],
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
       home: Scaffold(
-        body: AlbumPage(),
+        body: LoginPage(),
       ),
     );
   }

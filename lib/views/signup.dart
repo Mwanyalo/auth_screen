@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'formFields/fullName.dart';
-import 'formFields/phone.dart';
-import 'formFields/email.dart';
-import 'formFields/password.dart';
-import 'formFields/confirmPassword.dart';
+import 'package:Memes/views/view_memes.dart';
+import 'package:Memes/views/login.dart';
+import 'package:Memes/formFields/fullName.dart';
+import 'package:Memes/formFields/phone.dart';
+import 'package:Memes/formFields/email.dart';
+import 'package:Memes/formFields/password.dart';
+import 'package:Memes/formFields/confirmPassword.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -116,6 +117,10 @@ class _SignupState extends State<SignupPage> {
                           final snackBar =
                               SnackBar(content: Text('Processing Data...'));
                           globalKey.currentState.showSnackBar(snackBar);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => GetMemes()),
+                          );
                         }
                       },
                     ),
